@@ -15,3 +15,9 @@
 util.py,1\7\17c987dbb487ec852f3199b54e8bcdd5916bcf93
 K
 resources/messages/talk.txt,a\6\a63e67abb20b7ebe0fed057c1b70c8c45ad86315
+K
+resources/messages/quiz.txt,2\7\278839a76a973803fb7070381d2a252d2131e2cd
+K
+resources/messages/main.txt,3\1\311b13f568b65498433952712a1a6dd027b92a8e
+M
+resources/messages/random.txt,3\1\31ca2f895e7d40aa5eec1ce60309139191251c08
