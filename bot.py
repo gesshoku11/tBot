@@ -54,19 +54,46 @@ async def gpt_dialog(update: Update, context: ContextTypes.DEFAULT_TYPE):
                             answer,
                             buttons={'stop': 'Завершить'})
 
+async def talk(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data['mode'] = 'talk'
+    text = load_message('talk')
+    await send_image(update, context, 'talk')
+    await send_text_buttons(update, context, text, buttons={
+        'talk_cobain': 'Курт Кобейн',
+        'talk_queen': 'Елизавета II',
+        'talk_tolkien': 'Джон Толкиен',
+        'talk_nietzsche': 'Фридрих Ницше',
+        'talk_hawking': 'Стивен Хокинг',
+    })
+
+async def talk_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.callback_query.answer()
+    data = update.callback_query.data
+    chat_gpt.set_prompt(load_prompt(data))
+    great = await chat_gpt.add_message('Поздоровайся со мной')
+    await send_image(update, context, data)
+    await send_text(update, context, great)
+
+async def talk_dialog(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    pass
+
 async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if context.user_data.get('mode') in ('main', 'random'):
         await start(update, context)
-    elif context.user_data.get('mode') == 'gpt':
+    elif context.user_data.get('mode') in ('gpt', 'talk'):
         await gpt_dialog(update, context)
+
 
 chat_gpt = ChatGptService(ChatGPT_TOKEN)
 app = ApplicationBuilder().token(BOT_TOKEN).build()
 
 app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, text_handler))
 app.add_handler(CommandHandler('start', start))
+app.add_handler(CommandHandler('talk', talk))
 app.add_handler(CommandHandler('random', random))
 app.add_handler(CommandHandler('gpt', gpt))
+
+app.add_handler(CallbackQueryHandler(talk_buttons, pattern='^talk_.*'))
 app.add_handler(CallbackQueryHandler(random_buttons, pattern='random_more'))
 app.add_handler(CallbackQueryHandler(stop, pattern='stop'))
 app.add_handler(CallbackQueryHandler(default_callback_handler))

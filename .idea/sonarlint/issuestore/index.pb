@@ -13,3 +13,5 @@
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 7
 util.py,1\7\17c987dbb487ec852f3199b54e8bcdd5916bcf93
+K
+resources/messages/talk.txt,a\6\a63e67abb20b7ebe0fed057c1b70c8c45ad86315
