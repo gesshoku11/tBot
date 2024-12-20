@@ -110,7 +110,6 @@ async def quiz(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await send_text_buttons(update, context, 'Выберите тему', buttons={
         'quiz_prog': 'Программирование',
         'quiz_math': 'Математика',
-        'quiz_biologi': 'Биология'
     })
     return THEME
 
