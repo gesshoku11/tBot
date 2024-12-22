@@ -22,7 +22,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         'random': 'Узнать случайный интересный факт 🤠',
         'gpt': 'Задать вопрос чату GPT 🤖',
         'talk': 'Поговорить с известной личностью 👤',
-        'quiz': 'Поучаствовать в квизе ❓'
+        'quiz': 'Поучаствовать в квизе ❓',
+        'translator': 'Переводчик'
     })
 
 async def stop(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -43,6 +44,25 @@ async def random_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if context.user_data.get('mode') != 'random':
         return
     await random(update, context)
+
+async def translator(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data['mode'] = 'translator'
+    text = load_message('translator')
+    await send_image(update, context, 'translator')
+    await send_text_buttons(update, context, text, buttons={
+        'translator_English': 'Английский',
+        'translator_German': 'Немецкий',
+        'translator_Italian': 'Итальянский',
+        'translator_French': 'Французский',
+        'translator_Chinese': 'Китайский',
+    })
+
+async def translator_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.callback_query.answer()
+    data = update.callback_query.data
+    chat_gpt.set_prompt(load_prompt(data))
+    great = await chat_gpt.add_message('Поздоровайся со мной на выбранном мной языке')
+    await send_text(update, context, great)
 
 async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['mode'] = 'gpt'
@@ -86,7 +106,7 @@ async def talk_dialog(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if context.user_data.get('mode') in ('main', 'random'):
         await start(update, context)
-    elif context.user_data.get('mode') in ('gpt', 'talk'):
+    elif context.user_data.get('mode') in ('gpt', 'talk', 'translator'):
         await gpt_dialog(update, context)
 
 
@@ -97,10 +117,12 @@ app.add_handler(CommandHandler('start', start))
 app.add_handler(CommandHandler('talk', talk))
 app.add_handler(CommandHandler('random', random))
 app.add_handler(CommandHandler('gpt', gpt))
+app.add_handler(CommandHandler('translator', translator))
 
 app.add_handler(CallbackQueryHandler(talk_buttons, pattern='^talk_.*'))
 app.add_handler(CallbackQueryHandler(random_buttons, pattern='random_more'))
 app.add_handler(CallbackQueryHandler(stop, pattern='stop'))
+app.add_handler(CallbackQueryHandler(translator_buttons, pattern='^translator_.*'))
 
 
 async def quiz(update: Update, context: ContextTypes.DEFAULT_TYPE):
