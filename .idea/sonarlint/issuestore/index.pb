@@ -21,15 +21,14 @@ K
 resources/messages/main.txt,3\1\311b13f568b65498433952712a1a6dd027b92a8e
 M
 resources/messages/random.txt,3\1\31ca2f895e7d40aa5eec1ce60309139191251c08
-M
-resources/messages/translator,b\6\b68d3609c6c63218b521b3c82efc399df111ad3f
-L
-resources/prompts/translator,1\b\1b3032299d44436d09d548759c42723e5c0305bc
 J
 resources/prompts/quiz.txt,f\5\f53223274999f30e45ee1a8fae695d64d2d0abf8
 Q
 !resources/messages/translator.txt,c\2\c27f613636265d3fb04b13cb5606ea47b72547d0
-P
- resources/prompts/translator.txt,e\2\e2e3889238b1ca9a0193732e73f285f4e0dbc66f
 Q
 !resources/prompts/talk_cobain.txt,6\3\6394d6087dcc9d16eaaeb05cdb8b4cde295de2d8
+=
+.gitignore.py,4\1\4168f85fc431ade7c7562ece19037c08fa4b9f57
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
